@@ -235,7 +235,7 @@ i=`sed -n "$site"p list.tmp` && rm -f list.tmp
 cat /etc/httpd/conf/vhosts/$i |grep -v ScriptAlias|grep -v Action|grep -v AddHandler >> /etc/httpd/conf/vhosts/$i.temp && mv /etc/httpd/conf/vhosts/$i.temp /etc/httpd/conf/vhosts/$i && echo "$version disabled on $i"
 }
 #################################
-# Params
+# Params _ Entry point
 #################################
 # Program requires a parameter to run, ensures people read!
 if [ "$1" = "" ]; then
@@ -261,8 +261,3 @@ elif [ $1 = "disableone" ]; then
 elif [ $1 = "menu" ]; then
         m_menu
 fi
-
-
-
-#/home/openskill-$version/usr/local/$version2/bin/php -i|grep tens
-
