@@ -1,0 +1,60 @@
+php4blueonyx : Blueonyx php update script
+
+Written by Nelson-Jean Gaasch (JuPiTeR126) for Open Skill ( http://www.openskill.lu ) ; Project started on 23/07/2010
+
+Huge thanks to george for http://www.mr-webcam.com/viewtopic.php?f=19&t=58&sid=003347d7d6aee967af207b067b2e6506 : 
+
+That post is where this script is born!
+
+This script is some kind of dirty hack allowing us to save time for the installation of php on Blueonyx.
+It works for us on a fresh install (updated); but I've no guarantees whatsoever that it will for you.
+Run this script at your own risks, you are the only culprit if anything goes wrong!
+Even worse, some things go wrong and we know it! like when I change url fopen or url include in blueonyx's 
+config, they don't appeared change in the php info.
+
+The MIT License
+Copyright (c) 2010 Nelson-Jean Gaasch
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+
+How this script works:
+0. I usually just do everything as root here (shivers) and chown to apache when done.
+1. Setup the variables in the Variables section
+2. The scripts requires ONE parameter to run; this is to ensure people read before they run; possible parameters are:
+	compile : installs the dev dependencies, downloads the indicated version, compiles it, and prepares an archive with your php (about 43Mb)
+		  Keep it mind you should compile on another machine than the server so dev tools are not available to an attacker in case your server is compromised.
+	install : meant to be run with the archive !!! in the server's /home/ directory !!! ; uncompresses it and installs it on the server (yes /home/ is static so far... Sorry bout that)
+	enableone : enables the new php for one specific site
+	enableall : enables the new php in all sites (I'm not sure I would try this option in production yet)
+	disableone : disables the new php in one specific site
+	menu : enables the menu
+
+
+Changelog
+v0.01 - First alpha
+v0.02 - Simplified variables input
+	- Added dynamic version change in case different versions are required (only at script startup)
+	- Added the menu
+v0.03 - Cheers to Achel to find pecl doesn't like "php" in the path, corrected in this version
+	- go-pear was unsecure cause it needed a / in basedir to edit /root/pearrc when installing as root - Kinda fixed this with some sudo process:
+	  !!! The script needs one extra existing user !!! (create it in http://your.blueonyx.local:444 and then set this in the variables 
+	  !That user needs enough quota to compile!)
+	- Added check to prevent downloading php each time the script compiles
+	- Added check to prevent overwriting a previously compiled version
+	- Implemented some sed parsing for temporarly setting / in php.ini's basedir (no choice)
+v0.04 - Minor changes/corrections for switch to php 5.3.4
+	- Works for 5.3.5 also
