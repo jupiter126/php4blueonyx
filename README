@@ -58,3 +58,5 @@ v0.03 - Cheers to Achel to find pecl doesn't like "php" in the path, corrected i
 	- Implemented some sed parsing for temporarly setting / in php.ini's basedir (no choice)
 v0.04 - Minor changes/corrections for switch to php 5.3.4
 	- Works for 5.3.5 also
+v0.05 - Works with php-5.3.6
+      - Implemented better support for pecl extensions
