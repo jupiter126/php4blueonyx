@@ -1,5 +1,5 @@
 #!/bin/bash
-# Blueonyx php update script - 0.5
+# Blueonyx php update script - 0.04
 #
 ## Written by Nelson-Jean Gaasch (JuPiTeR126) for Open Skill ( http://www.openskill.lu ) ; Project started on 23/07/2010
 # Huge thanks to george for http://www.mr-webcam.com/viewtopic.php?f=19&t=58&sid=003347d7d6aee967af207b067b2e6506 : 
@@ -27,7 +27,7 @@
 #################################
 version=php-5.3.6 #Set the version of php here
 extrauser=jupiter #Name of your extra user
-appelation=openskill # $appelation can NOT be "php" !
+appelation=opensk3lltest2 # $appelation can NOT be "php" !
 #################################
 # Exit and bashtrap (control-c)
 #	generic exit function
@@ -123,7 +123,7 @@ rmdir $version
 cd /home
 chown -R $extrauser $version3
 cd /home/$version3
-sudo -u $extrauser ./configure --prefix=/home/$version3/usr/local/$version2 --with-config-file-path=/home/$version3/etc/$version2 --with-config-file-scan-dir=/home/$version3/etc/$version2.d --with-bz2 --with-db4=/usr --with-curl --with-exec-dir=/usr/bin --with-freetype-dir=/usr --with-png --with-png-dir=/usr --enable-gd-native-ttf --without-gdbm --with-gettext --with-gmp --with-iconv --with-jpeg-dir=/usr --with-openssl --with-pspell --with-pcre-regex=/usr --with-zlib --with-layout=GNU --enable-exif --enable-ftp --enable-magic-quotes --enable-sockets --enable-sysvsem --enable-sysvshm --enable-sysvmsg --enable-wddx --with-kerberos --enable-ucd-snmp-hack --enable-shmop --enable-calendar --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --with-mysql-sock=/var/lib/mysql/mysql.sock --with-libxml-dir=/usr --with-gd=/usr --with-regex=system --with-xsl=/usr --enable-mbstring --with-pic --enable-track-vars --enable-yp --enable-memcache=/home/$version3/ --enable-memory-limit --enable-dbx --enable-dio --without-sqlite --with-xml --with-system-tzdata
+sudo -u $extrauser ./configure --prefix=/home/$version3/usr/local/$version2 --with-config-file-path=/home/$version3/etc/$version2 --with-config-file-scan-dir=/home/$version3/etc/$version2.d --with-bz2 --with-db4=/usr --with-curl --with-exec-dir=/usr/bin --with-freetype-dir=/usr --with-png --with-png-dir=/usr --enable-gd-native-ttf --without-gdbm --with-gettext --with-gmp --with-iconv --with-jpeg-dir=/usr --with-openssl --with-pspell --with-pcre-regex=/usr --with-zlib --with-layout=GNU --enable-exif --enable-ftp --enable-magic-quotes --enable-sockets --enable-sysvsem --enable-sysvshm --enable-sysvmsg --enable-wddx --with-kerberos --enable-ucd-snmp-hack --enable-shmop --enable-calendar --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --with-mysql-sock=/var/lib/mysql/mysql.sock --with-libxml-dir=/usr --with-gd=/usr --with-regex=system --with-xsl=/usr --enable-mbstring --with-pic --enable-track-vars --enable-yp --enable-memcache=/home/$version3/ --enable-memory-limit --enable-dbx --enable-dio --without-sqlite --with-xml --with-system-tzdata --with-tidy
 sudo -u $extrauser gmake
 sudo -u $extrauser mkdir -p /home/$version3/usr/local/$version2/share/pear/
 cd /home/$version3/usr/local/$version2/share/pear/
@@ -133,7 +133,7 @@ cd /home/$version3/usr/local/$version2/share/pear/
 line=`cat /etc/php.ini | grep -n open_basedir | grep -v ";" | cut -f 1 -d":"`
 bckdata=`cat /etc/php.ini | grep -n open_basedir | grep -v ";" | cut -f 2 -d"="`
 echo $line $bckdata
-sed $line"s|=.*|= /|" /etc/php.ini > $extrauser-$version2.txt && mv $extrauser-$version2.txt /etc/php.ini && echo "basedir set to /"
+#sed $line"s|=.*|= /|" /etc/php.ini > $extrauser-$version2.txt && mv $extrauser-$version2.txt /etc/php.ini && echo "basedir set to /"
 tail /etc/php.ini
 whoami
 cd /home
@@ -165,7 +165,7 @@ echo "# TO THE NEXT QUESTION, ANSWER 1 , enter AND THEN :"
 echo "# /home/$version3/usr/local/$version2"
 echo "###################################################"
 wget http://pear.php.net/go-pear.phar && cat go-pear.phar | /home/$version3/usr/local/$version2/bin/php
-sed $line"s|=.*|= $bckdata|" /etc/php.ini > $extrauser-$version2.txt && mv $extrauser-$version2.txt /etc/php.ini && echo "basedir restored to $bckdata"
+#sed $line"s|=.*|= $bckdata|" /etc/php.ini > $extrauser-$version2.txt && mv $extrauser-$version2.txt /etc/php.ini && echo "basedir restored to $bckdata"
 service httpd restart
 ################################################################################################################################################
 #  Here is where you want to edit things depending on your PECL modules needs
@@ -176,7 +176,7 @@ mount -o remount,exec /tmp
 	tar -xvzf json-1.2.1.tgz && rm json-1.2.1.tgz
 	cd json-1.2.1
 	/home/$version3/usr/local/$version2/bin/phpize
-	./configure && make && make install && cd ..
+	./configure --with-php-config=/home/$version3/usr/local/$version2/bin/php-config --with-json && make && make install && cd ..
 # Add an extension=json.so line to your php.ini/php.d --> required?
 ############</json>
 	/home/$version3/usr/local/$version2/bin/pecl install memcache
@@ -188,7 +188,7 @@ mount -o remount,exec /tmp
 	tar -xvzf tidy-1.2.tgz && rm tidy-1.2.tgz
 	cd tidy-1.2
 	/home/$version3/usr/local/$version2/bin/phpize
-	./configure && make && make install && cd ..
+	./configure --with-php-config=/home/$version3/usr/local/$version2/bin/php-config --with-tidy && make && make install && cd ..
 ############</tidy>
 
 mount -o remount,noexec /tmp
